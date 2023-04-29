@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  the-api:
+        build: ./
+        environment: 
+          MYSQL_HOST: 'mysql:3306'
+          MYSQL_DATABASE: 'test-api'
+          MYSQL_USER: 'root'
+          MYSQL_PASSWORD: '123'
+        ports:        
+          - "8080:8080"
+        expose:
+          - "8080"
+        depends_on:
+          - mysql
+        restart: always
+  mysql:
+    image: mysql:5.7
+    container_name: 'mysql-nidzam-test-api'
+    environment:
+      MYSQL_DATABASE: 'test-api'
+      MYSQL_HOST: 'localhost:3306'
+      MYSQL_USER: 'mysql'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: '123'
+    restart: always
+    volumes:     
+      - ./db/test-api.sql:/docker-entrypoint-initdb.d/init.sql
